@@ -1,0 +1,51 @@
+# CRISProg on the IGVF cardiomyocyte TF Perturb-seq (analysis set IGVFDS6332VCTO, Hon lab).
+# Inputs come from prep_cm.py (data/). Paths are relative to this file. Programs are discovered from this dataset.
+name: tf_cm                           # results in results/tf_cm/
+results_dir: results
+
+data:
+  h5ad: data/tf_cm.h5ad
+  counts_layer: counts
+  guide_col: guides
+  control_pattern: '^NC_'             # non-targeting and olfactory-receptor negative-control guides (prep_cm.py)
+  control_types:                      # checked separately by the negative-control check
+    non-targeting: '^NC_non-targeting'
+    safe-targeting: '^NC_(?!non-targeting)'   # olfactory-receptor promoters (silent in cardiomyocytes)
+  positive_controls: [AARS, B2M, CD151, CD29, ITGB1, CD55, CD81, DNAJC19, MALAT1, NGFRAP1, BEX3, POLR1D, TFRC]   # library knockdown controls
+  target_map: data/guide_targets.tsv  # guide -> TF; the ~6 guides of a TF are tested together
+
+programs:
+  discover:
+    methods: [hotspot, hdwgcna]
+    max_cells: 20000
+    jobs: 8
+    hdwgcna:
+      group_col: lane                 # metacells never mix 10x libraries
+
+covariates:
+  use: [log_n_genes, moi]
+  batch: [lane]
+
+aucell:
+  cores: 8
+
+association:
+  n_perm: 10000
+
+annotation:
+  context: >
+    CRISPRi Perturb-seq in human iPSC-derived cardiomyocytes (WTC-11, day 12 of differentiation; IGVF analysis
+    set IGVFDS6332VCTO, Hon lab). The library targets the promoters of ~2,000 transcription factors with ~6 guides
+    each, plus non-targeting and olfactory-receptor control guides and a few positive-control knockdowns; cells
+    carry 1-2 guides (median 2). Programs were
+    discovered from this dataset with Hotspot and hdWGCNA. Question: which TFs regulate which cardiomyocyte gene
+    programs, and through which biology.
+
+enrichment:
+  backend: enrichr                    # falls back to these local files if the node has no internet
+  gmt:
+    - gmt/c2.cp.reactome.v2026.1.Hs.symbols.gmt
+    - gmt/c2.cp.kegg_legacy.v2026.1.Hs.symbols.gmt
+    - gmt/c2.cp.wikipathways.v2026.1.Hs.symbols.gmt
+    - gmt/h.all.v2026.1.Hs.symbols.gmt
+    - gmt/c5.go.bp.v2026.1.Hs.symbols.gmt
