@@ -1,6 +1,9 @@
 site_name: CRISProg
 site_description: Which perturbations in a single-cell CRISPR screen drive which gene programs, and what that means.
 site_url: https://deylab999mskcc.github.io/CRISProg-web/
+repo_url: https://github.com/Deylab999MSKCC/CRISProg
+repo_name: Deylab999MSKCC/CRISProg
+edit_uri: ""
 
 theme:
   name: material

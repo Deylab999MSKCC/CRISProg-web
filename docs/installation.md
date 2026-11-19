@@ -3,7 +3,7 @@
 Three commands:
 
 ```bash
-git clone <repo-url> CRISProg && cd CRISProg
+git clone https://github.com/Deylab999MSKCC/CRISProg.git && cd CRISProg
 conda env create -f environment.yml
 conda activate crisprog
 ```

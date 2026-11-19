@@ -15,6 +15,7 @@ every hit, and writes a report that explains them.</p>
 <div class="cp-actions" markdown>
 [Get started](installation.md){ .md-button .md-button--primary }
 [See an example](vignettes/cardiomyocytes.md){ .md-button }
+[:fontawesome-brands-github: GitHub](https://github.com/Deylab999MSKCC/CRISProg){ .md-button }
 </div>
 </div>
 
