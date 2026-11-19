@@ -1,8 +1,8 @@
 # TF Perturb-seq in cardiomyocytes
 
-A public screen, start to finish: download the data, run CRISProg, and explore what it finds. No program file is
-given here, so the programs are discovered from the screen itself. Each guide targets one transcription factor's
-promoter, so every unit is simply a gene.
+A public screen, start to finish: download the data, run CRISProg, and explore what it finds. The programs were
+discovered from the screen itself; the config starts from those programs, so a rerun gives the results shown here.
+Each guide targets one transcription factor's promoter, so every unit is simply a gene.
 
 <div class="cp-stats">
   <div class="cp-stat"><div class="v">737,263</div><div class="l">cardiomyocytes (iPSC-derived, day 12)</div></div>
@@ -90,6 +90,7 @@ python prep_cm.py --raw raw --out data      # needs a high-memory node: the pick
 <p class="cp-lede">Only the lines below differ from the defaults. Click a <b>+</b> to see why each is there.</p>
 
 [:material-download: config.yaml](files/cardiomyocytes/config.yaml){ .md-button }
+[:material-download: programs.tsv](files/cardiomyocytes/programs.tsv){ .md-button }
 
 ```yaml
 data:
@@ -104,8 +105,9 @@ data:
   target_map: data/guide_targets.tsv
 
 programs:
+  file: programs.tsv # (5)!
   discover:
-    methods: [hotspot, hdwgcna] # (5)!
+    methods: [hotspot, hdwgcna]
     max_cells: 20000
     hdwgcna:
       group_col: lane # (6)!
@@ -121,7 +123,10 @@ covariates:
 3.  Each control type gets its own fake units, so you can compare guides that bind nowhere with guides that bind a
     silent promoter.
 4.  Knockdown controls from the library. They are still tested, but labelled and reported apart from the TFs.
-5.  No `programs.file`, so programs are discovered from this screen with both methods.
+5.  The 17 programs found in this screen by Hotspot and hdWGCNA ([step 6](#programs)), so a rerun starts from
+    exactly these. Delete this line to discover programs again with both methods. The published run used an earlier
+    CRISProg whose Hotspot neighbour search was approximate, so rediscovery can give somewhat different Hotspot
+    modules.
 6.  hdWGCNA builds metacells; this keeps cells from different 10x libraries out of the same metacell.
 7.  28 libraries; each gets its own model term.
 

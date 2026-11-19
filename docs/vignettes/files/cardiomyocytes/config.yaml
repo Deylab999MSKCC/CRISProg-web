@@ -1,5 +1,7 @@
 # CRISProg on the IGVF cardiomyocyte TF Perturb-seq (analysis set IGVFDS6332VCTO, Hon lab).
-# Inputs come from prep_cm.py (data/). Paths are relative to this file. Programs are discovered from this dataset.
+# Inputs come from prep_cm.py (data/). Paths are relative to this file.
+# programs.tsv holds the 17 programs discovered from this dataset in the published run (Hotspot and hdWGCNA), so a
+# rerun starts from exactly those programs. Delete the programs.file line to discover programs again instead.
 name: tf_cm                           # results in results/tf_cm/
 results_dir: results
 
@@ -15,6 +17,7 @@ data:
   target_map: data/guide_targets.tsv  # guide -> TF; the ~6 guides of a TF are tested together
 
 programs:
+  file: programs.tsv                  # the published programs; without this line they are discovered as below
   discover:
     methods: [hotspot, hdwgcna]
     max_cells: 20000
